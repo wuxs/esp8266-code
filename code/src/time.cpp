@@ -3,7 +3,7 @@
 #include <lwip/etharp.h>
 
 const char *ssid = "Adesk";
-const char *password = "tryourbest";
+const char *pswd = "tryourbest";
 
 const IPAddress remote(192, 168, 0, 115);
 
@@ -14,7 +14,7 @@ int dst = 0;
 void init_wifi() {
     Serial.println("Connecting to WiFi");
 
-    WiFi.begin(ssid, password);
+    WiFi.begin(ssid, pswd);
 
     while (WiFi.status() != WL_CONNECTED) {
         delay(100);
@@ -28,10 +28,11 @@ void init_wifi() {
 void init_time() {
     configTime(timezone * 3600, dst * 0, "cn.ntp.org.cn", "ntp1.aliyun.com");
     time_t now;
-    struct tm *timeinfo;
+    struct tm *info;
     time(&now);
-    timeinfo = localtime(&now);
-    Serial.println(timeinfo->tm_hour);
+    info = localtime(&now);
+    Serial.printf("%d-%d-%d %d:%d:%d", info->tm_year, info->tm_mon, info->tm_mday, info->tm_hour, info->tm_min,
+                  info->tm_sec);
     delay(1000);
 }
 

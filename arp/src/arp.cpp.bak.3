@@ -1,0 +1,102 @@
+#include <Arduino.h>
+#include <IPAddress.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+#include <ESP8266Ping.h>
+#include <lwip/etharp.h>
+#include <lwip/netif.h>
+#include <netif/etharp.h>
+
+/* 连接您的WIFI SSID和密码 */
+#define WIFI_SSID       "HUAWEI-TFN7F5"
+#define WIFI_PASSWD     "949625012"
+//#define PC_MAC          "4C:ED:FB:BD:DC:E6"
+#define NOTIFY_HOST     "sc.ftqq.com"
+#define NOTIFY_PORT      80
+#define NOTIFY_URL      "/SCU44583Te387109551e70dc28790757bf3796aa05c643c7f5ac0c.send"
+#define MASK            IPAddress(0xFF, 0xFF, 0xFF, 0xFF)
+#define WOL_PORT        9
+bool status = false;
+
+const IPAddress mobile(192, 168, 3, 52);
+const IPAddress pc_home(192, 168, 3, 49);//192.168.3.49
+
+
+void wifiInit() {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWD);
+    Serial.print("Connected to AP");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(100);
+        Serial.print(".");
+    }
+    Serial.print("\nIP address: ");
+    Serial.println(WiFi.localIP());
+}
+
+void sendToWeChat(String text) {
+    String url = (String) NOTIFY_URL + "?text=" + text;
+    WiFiClient client;
+    if (!client.connect(NOTIFY_HOST, NOTIFY_PORT)) {
+        Serial.println("Connection Failed");
+        delay(1000);
+        return;
+    }
+    String request = (String) ("GET ") + url + " HTTP/1.1\r\n" + "Host: " + NOTIFY_HOST + "\r\n\r\n";
+    client.print(request);
+    client.stop();
+}
+
+void sendMagicPacket() {
+    WiFiUDP udp;
+    udp.beginPacketMulticast(MASK, WOL_PORT, WiFi.localIP());
+    const uint8_t package[102] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed,
+                                  0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd,
+                                  0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6,
+                                  0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed,
+                                  0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd,
+                                  0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6,
+                                  0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed, 0xfb, 0xbd, 0xdc, 0xe6, 0x4c, 0xed,
+                                  0xfb, 0xbd, 0xdc, 0xe6};
+    udp.write(package, sizeof(package));
+    udp.endPacket();
+}
+
+bool arp_check() {
+    eth_addr *mac;
+    etharp_tmr();
+    const ip_addr_t *remote_ip;
+    etharp_find_addr(netif_default, mobile, &mac, &remote_ip);
+    char mac_str[6];
+    sprintf(mac_str, MACSTR, MAC2STR(mac->addr));
+    Serial.printf("MAC =>" MACSTR "\n", MAC2STR(mac->addr));
+    return strcmp("F4:60:E2:76:BE:52", mac_str) == 0;
+}
+
+void check() {
+    bool result = Ping.ping(mobile);
+    if (result && !status) {
+        sendMagicPacket();
+        sendToWeChat(mobile.toString() + " 已连接WiFi!正在启动电脑!!");
+        Serial.println(mobile.toString() + " 已连接!");
+        status = true;
+    } else if (!result && !arp_check()) {
+        Serial.println(mobile.toString() + " 已断开连接!");
+        if (Ping.ping(pc_home)) {
+            sendToWeChat(mobile.toString() + " 已断开wifi连接!电脑未关闭!!");
+        } else {
+            sendToWeChat(mobile.toString() + " 已断开wifi连接!");
+        }
+        status = false;
+    }
+}
+
+void setup() {
+    Serial.begin(115200);
+    wifiInit();
+}
+
+void loop() {
+    check();
+    delay(1000);
+}
