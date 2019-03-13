@@ -10,10 +10,10 @@
 
 AsyncMqttClient client;
 Ticker mqtt_reconnect_ticker;
+Ticker wifi_reconnect_ticker;
 
 WiFiEventHandler wifi_connect_handler;
 WiFiEventHandler wifi_disconnect_handler;
-Ticker wifi_reconnect_ticker;
 
 void print(String msg) {
     Serial.print(msg);
@@ -121,7 +121,7 @@ void setup() {
     println("");
 
     wifi_connect_handler = WiFi.onStationModeGotIP(on_wifi_connect);
-    wifiDisconnectHandler = WiFi.onStationModeDisconnected(on_wifi_disconnect);
+    wifi_disconnect_handler = WiFi.onStationModeDisconnected(on_wifi_disconnect);
 
     client.onConnect(on_mqtt_connect);
     client.onDisconnect(on_mqtt_disconnect);
