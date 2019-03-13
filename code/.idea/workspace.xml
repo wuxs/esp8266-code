@@ -3,16 +3,16 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="code" targetName="PLATFORMIO_PROGRAM" />
-      <config projectName="code" targetName="PLATFORMIO_REBUILD_PROJECT_INDEX" />
-      <config projectName="code" targetName="code" />
       <config projectName="code" targetName="PLATFORMIO_BUILD" />
-      <config projectName="code" targetName="PLATFORMIO_UPDATE_ALL" />
+      <config projectName="code" targetName="DEBUG" />
+      <config projectName="code" targetName="PLATFORMIO_TEST" />
+      <config projectName="code" targetName="PLATFORMIO_CLEAN" />
+      <config projectName="code" targetName="code" />
+      <config projectName="code" targetName="PLATFORMIO_UPLOAD" />
+      <config projectName="code" targetName="PLATFORMIO_REBUILD_PROJECT_INDEX" />
       <config projectName="code" targetName="PLATFORMIO_UPLOADFS" />
       <config projectName="code" targetName="PLATFORMIO" />
-      <config projectName="code" targetName="PLATFORMIO_UPLOAD" />
-      <config projectName="code" targetName="PLATFORMIO_TEST" />
-      <config projectName="code" targetName="DEBUG" />
-      <config projectName="code" targetName="PLATFORMIO_CLEAN" />
+      <config projectName="code" targetName="PLATFORMIO_UPDATE_ALL" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -22,14 +22,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec922180-b3d3-40f1-af0b-2568113a9075" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/platformio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/platformio.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ota.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/ota.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../time/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../time/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="platformio.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mqtt.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="19" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="25" />
+            <state relative-caret-position="288">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -94,6 +91,9 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="252" />
@@ -247,7 +247,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1000" />
+    <option name="totallyTimeSpent" value="652000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1860" height="1094" extended-state="6" />
