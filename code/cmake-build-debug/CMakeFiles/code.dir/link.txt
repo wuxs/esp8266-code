@@ -1,1 +1,0 @@
-/home/wxs/.platformio/packages/toolchain-xtensa/bin/xtensa-lx106-elf-g++  -g  -rdynamic CMakeFiles/code.dir/src/mqtt.cpp.o CMakeFiles/code.dir/src/time.cpp.o  -o code 
