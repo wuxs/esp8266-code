@@ -114,7 +114,7 @@ void make_magic_packet(const uint8_t *mac, uint8_t *package) {
 
 void send_magic_packet() {
     WiFiUDP udp;
-    udp.beginPacketMulticast(MASK, WOL_PORT, WiFi.localIP());
+    udp.beginPacketMulticast(IPADDR_BROADCAST, WOL_PORT, WiFi.localIP());
     uint8_t package[102];
     make_magic_packet(PC_MAC, package);
     udp.write(package, sizeof(package));

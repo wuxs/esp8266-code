@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <lwip/etharp.h>
+#include <user_config.h>
+#include <user_interface.h>
 
 const char *ssid = "Adesk";
 const char *pswd = "tryourbest";
@@ -9,7 +11,6 @@ const IPAddress remote(192, 168, 0, 115);
 
 int timezone = 8;
 int dst = 0;
-
 
 void init_wifi() {
     Serial.println("Connecting to WiFi");
