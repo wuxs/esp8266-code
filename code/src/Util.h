@@ -8,11 +8,19 @@ public:
 
     void init_mqtt();
 
+    void init_server();
+
+    void register_handler();
+
+    void unregister_handler();
+
     void now_time();
 
     bool wake_on_lan();
 
     bool arping();
+
+    void arp(const char *ip);
 
     void print(const char *msg);
 
@@ -42,10 +50,11 @@ private:
 
     int  http_port              = 80;
 
-    bool make_magic_packet();
+    bool make_magic_packet(const uint8_t *mac, uint8_t *package);
 
     void write_to_log();
 
+    void str_to_bytes();
 
 };
 
